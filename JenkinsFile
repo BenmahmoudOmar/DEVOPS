@@ -1,0 +1,24 @@
+pipeline {
+agent any
+stages {
+stage('Cloner') {
+steps {
+}
+git branch: 'main', url: 'https://github.com/BenmahmoudOmar/DEVOPS.git'
+}
+stage ('Build') {
+steps {
+sh 'mvn clean install'
+}
+}
+stage('SonarQube Analysis') {
+steps {
+withSonarQube Env('SonarQube') {
+sh 'nvm run sonar'
+}
+}
+steps {
+stage ('Tests') {
+sh 'mvn test'
+}
+}
